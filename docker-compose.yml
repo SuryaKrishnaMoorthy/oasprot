@@ -1,0 +1,42 @@
+version: "3.6"
+services:
+  oa3:
+    image: prot:v1
+    ports:
+      - target: 7878
+        published: 7878
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - DB_USER=micro
+      - DB_SERVER=db
+      - DB_NAME=micro
+    configs:
+    - source: wait-for-it
+      target: /app/wait-for-it.sh
+      mode: 744
+    command: ["dumb-init", "--", "./wait-for-it.sh", "db:5432", "-s", "-t", "10", "--", "gunicorn", "-w", "4", "-b", "0.0.0.0:7878", "prot:app"]
+  db:
+    image: postgres:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1000M
+      restart_policy:
+        condition: on-failure
+    environment:
+      - DB_USER=micro
+      - DB_SERVER=db
+      - DB_NAME=micro
+    configs:
+      - source: micro_db
+        target: /docker-entrypoint-initdb.d/dinit-inseq-db.sh
+configs:
+  micro_db:
+    external: true
+  wait-for-it:
+    external: true

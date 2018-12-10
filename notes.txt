@@ -1,0 +1,8 @@
+      xrefs:
+        type: array
+        items:
+          $ref: '#/components/schemas/DbReferenceObject'
+      evidences:
+        type: array
+        items:
+          $ref: '#/components/schemas/Evidence'

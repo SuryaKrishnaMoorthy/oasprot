@@ -1,0 +1,11 @@
+# git
+.gitignore
+
+# config
+README.md
+
+# pycharm
+.idea
+
+# Distribution / packaging
+*.egg-info/

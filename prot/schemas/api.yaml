@@ -1,0 +1,159 @@
+openapi: "3.0.0"
+
+info:
+  title: Protein Test API
+  description: Remote links test
+  version: "1.0"
+servers:
+  - url: http://localhost:7878/v1.0
+
+paths:
+  /protein/{proteinId}:
+    get:
+      parameters:
+        - in: path
+          name: proteinId
+          schema:
+            type: string
+          required: true
+      summary: get a protein record
+      tags:
+        - proteins
+      operationId: prot.get_protein
+      responses:
+        200:
+          description: protein record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Protein'
+          links:
+            GetSeqByProteinId:
+              operationId: prot.get_protein_seq
+              parameters:
+                proteinId: '$request.path.proteinId'
+  /uniprot/{proteinId}.fasta:
+    get:
+      parameters:
+        - in: path
+          name: proteinId
+          schema:
+            type: string
+          required: true
+      summary: get protein sequence
+      tags:
+        - proteins
+      operationId: prot.get_protein_seq
+      responses:
+        200:
+          description: protein sequence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fasta'
+          links:
+            GetProteinByProteinId:
+              operationId: prot.get_protein
+              parameters:
+                proteinId: '$request.path.proteinId'
+  /proteins/api/features/{proteinId}:
+    get:
+      servers:
+        - url: https://www.ebi.ac.uk
+      parameters:
+        - in: path
+          name: proteinId
+          schema:
+            type: string
+          required: true
+      summary: get protein features
+      tags:
+        - proteins
+      operationId: prot.get_protein_features
+      responses:
+        200:
+          description: protein sequence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProteinFeatureInfo'
+
+components:
+
+  schemas:
+    Protein:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Fasta:
+      type: object
+      properties:
+        fasta:
+          type: string
+        id:
+          type: string
+    ProteinFeatureInfo:
+      type: object
+      properties:
+        version:
+          type: string
+        accession:
+          type: string
+        entryName:
+          type: string
+        proteinName:
+          type: string
+        geneName:
+          type: string
+        organismName:
+          type: string
+        proteinExistence:
+          type: string
+        sequence:
+          type: string
+        sequenceChecksum:
+          type: string
+        sequenceVersion:
+          type: integer
+        geteGeneId:
+          type: string
+        geteProteinId:
+          type: string
+        taxid:
+          type: integer
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/Feature'
+    Feature:
+      type: object
+      properties:
+        type:
+          type: string
+        category:
+          type: string
+          enum:
+            - MOLECULE_PROCESSING
+            - STRUCTURAL
+            - DOMAINS_AND_SITES
+            - MUTAGENESIS
+            - PTM
+            - SEQUENCE_INFORMATION
+            - TOPOLOGY
+            - VARIANTS
+          description: 'the type of type'
+        cvId:
+          type: string
+        ftId:
+          type: string
+        description:
+          type: string
+        alternativeSequence:
+          type: string
+        begin:
+          type: string
+        end:
+          type: string

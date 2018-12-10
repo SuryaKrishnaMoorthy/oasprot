@@ -1,0 +1,3 @@
+# Load files into db...
+docker exec -it <container_id> bash
+python load_data.py

@@ -14,10 +14,26 @@ services:
       - DB_SERVER=db
       - DB_NAME=micro
     configs:
-    - source: wait-for-it
-      target: /app/wait-for-it.sh
-      mode: 744
-    command: ["dumb-init", "--", "./wait-for-it.sh", "db:5432", "-s", "-t", "10", "--", "gunicorn", "-w", "4", "-b", "0.0.0.0:7878", "prot:app"]
+      - source: wait-for-it
+        target: /app/wait-for-it.sh
+        mode: 744
+    command:
+      [
+        "dumb-init",
+        "--",
+        "./wait-for-it.sh",
+        "db:5432",
+        "-s",
+        "-t",
+        "10",
+        "--",
+        "gunicorn",
+        "-w",
+        "4",
+        "-b",
+        "0.0.0.0:7878",
+        "prot:app",
+      ]
   db:
     image: postgres:latest
     deploy:

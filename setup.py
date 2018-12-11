@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-APP_NAME = 'prot'
+APP_NAME = 'rssapi'
 VERSION = '0.1.0'
 AUTHOR = 'James Hibbard'
 

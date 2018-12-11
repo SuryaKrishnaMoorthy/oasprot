@@ -19,19 +19,19 @@ paths:
       summary: get a protein record
       tags:
         - proteins
-      operationId: prot.get_protein
+      operationId: rssapi.get_protein
       responses:
         200:
           description: protein record
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Protein'
+                $ref: "#/components/schemas/Protein"
           links:
             GetSeqByProteinId:
-              operationId: prot.get_protein_seq
+              operationId: rssapi.get_protein_seq
               parameters:
-                proteinId: '$request.path.proteinId'
+                proteinId: "$request.path.proteinId"
   /uniprot/{proteinId}.fasta:
     get:
       parameters:
@@ -43,19 +43,19 @@ paths:
       summary: get protein sequence
       tags:
         - proteins
-      operationId: prot.get_protein_seq
+      operationId: rssapi.get_protein_seq
       responses:
         200:
           description: protein sequence
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Fasta'
+                $ref: "#/components/schemas/Fasta"
           links:
             GetProteinByProteinId:
-              operationId: prot.get_protein
+              operationId: rssapi.get_protein
               parameters:
-                proteinId: '$request.path.proteinId'
+                proteinId: "$request.path.proteinId"
   /proteins/api/features/{proteinId}:
     get:
       servers:
@@ -69,17 +69,16 @@ paths:
       summary: get protein features
       tags:
         - proteins
-      operationId: prot.get_protein_features
+      operationId: rssapi.get_protein_features
       responses:
         200:
           description: protein sequence
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProteinFeatureInfo'
+                $ref: "#/components/schemas/ProteinFeatureInfo"
 
 components:
-
   schemas:
     Protein:
       type: object
@@ -127,7 +126,7 @@ components:
         features:
           type: array
           items:
-            $ref: '#/components/schemas/Feature'
+            $ref: "#/components/schemas/Feature"
     Feature:
       type: object
       properties:
@@ -144,7 +143,7 @@ components:
             - SEQUENCE_INFORMATION
             - TOPOLOGY
             - VARIANTS
-          description: 'the type of type'
+          description: "the type of type"
         cvId:
           type: string
         ftId:

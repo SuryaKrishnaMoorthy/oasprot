@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   oa3:
-    image: prot:v1
+    image: rss:v1
     ports:
       - target: 7878
         published: 7878
@@ -32,7 +32,7 @@ services:
         "4",
         "-b",
         "0.0.0.0:7878",
-        "prot:app",
+        "rssapi:app",
       ]
   db:
     image: postgres:latest

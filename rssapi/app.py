@@ -4,7 +4,7 @@ import os
 # External Libraries
 import connexion
 from flask_cors import CORS
-from prot.schemas.orm import init_db, Protein
+from rssapi.schemas.orm import init_db, Protein
 
 
 # uri for Microsoft SQL Server
@@ -16,8 +16,7 @@ DB_SERVER = os.environ['DB_SERVER']
 DB_NAME = os.environ['DB_NAME']
 
 # uri for PostgreSQL
-init_db(uri=f'postgres+psycopg2://{DB_USER}@{DB_SERVER}:5432/{DB_NAME}')
-db = init_db(uri)
+db = init_db(uri=f'postgres+psycopg2://{DB_USER}@{DB_SERVER}:5432/{DB_NAME}')
 
 
 def get_protein(proteinId) -> dict:
@@ -38,6 +37,7 @@ def get_protein_features(proteinId) -> dict:
 
 if __name__ == '__main__':
     app = connexion.FlaskApp(__name__, port=7878, specification_dir='schemas/')
-    app.add_api('api.yaml', arguments={'title': 'Hello World Example'}, strict_validation=True)
+    app.add_api('api.yaml', arguments={
+                'title': 'Hello World Example'}, strict_validation=True)
     CORS(app.app)
     app.run()
